@@ -1,0 +1,12 @@
+<p><a href="{{ path('card') }}">Basket {% if productsInBasketCount %}({{productsInBasketCount}}){% endif %}</a></p>
+<h1>Products</h1>
+<div class="products">
+{% for product in products %}
+<div class="product">
+    <h3>{{product.name}}</h3>
+    <div>{{product.price}} <span>({{product.vat}}%)</span></div>
+    <p><form method="post"><input type="hidden" name="add-product" value="{{product.id}}"/><input type="submit" value="Dodaj"/></form></p>
+    <p>{{product.description}}</p>
+</div>
+{% endfor %}
+</div>
