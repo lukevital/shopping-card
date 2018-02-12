@@ -8,7 +8,7 @@ class Product {
     private $description;
     private $price;
     private $vat;
-    private $categoryId;
+    private $category;
 
     public function setName($name) {
         $this->name = $name;
@@ -26,8 +26,8 @@ class Product {
         $this->vat = $vat;
     }
 
-    public function setCategoryId($categoryId) {
-        $this->$categoryId = $categoryId;
+    public function setCategory($category) {
+        $this->category = $category;
     }
     
     public function getId() {
@@ -50,7 +50,7 @@ class Product {
         return $this->vat;
     }
 
-    public function getCategoryId() {
-        return $this->categoryId;
+    public function getCategory() {
+        return $this->category;
     }
 }

@@ -1,11 +1,12 @@
-<p><a href="{{ path('products') }}">Products</a></p>
-<h1>Basket</h1>
+<p><a href="{{ path('products') }}">Produkty</a></p>
+<h1>Koszyk</h1>
 <div class="products">
 {% for product in products %}
 <div class="product">
     <h3>{{product.name}}</h3>
-    <div>{{product.price}} <span>({{product.vat}}%)</span></div>
+    <div>Cena: {{product.price}} zł <span>(w tym {{product.vat}}% VAT)</span></div>
     <p><form method="post"><input type="hidden" name="delete-product" value="{{product.id}}"/><input type="submit" value="Usuń"/></form></p>
 </div>
 {% endfor %}
 </div>
+<h3>Suma: {{ priceSum }} zł</h2>

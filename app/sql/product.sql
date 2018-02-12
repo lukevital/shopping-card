@@ -4,7 +4,9 @@ CREATE TABLE IF NOT EXISTS `product`(
     `description` TEXT NOT NULL,
     `price` DECIMAL(5,2) NOT NULL,
     `vat` TINYINT UNSIGNED NOT NULL,
-    `category_id` TINYINT UNSIGNED NOT NULL
+    `category_id` TINYINT UNSIGNED NOT NULL,
+    FOREIGN KEY (`category_id`)
+        REFERENCES category(`id`)
 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
 INSERT INTO `product` (`name`, `description`, `price`, `vat`, `category_id`) VALUES

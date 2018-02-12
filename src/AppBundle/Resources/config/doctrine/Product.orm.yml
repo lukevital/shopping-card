@@ -16,5 +16,10 @@ AppBundle\Entity\Product:
       scale: 2
     vat:
       type: integer
-    categoryId:
-      type: integer
+  manyToOne:
+    category:
+      targetEntity: Category
+      inversedBy: products
+      joinColumn:
+        name: category_id
+        referencedColumnName: id

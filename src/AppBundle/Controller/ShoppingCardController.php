@@ -2,6 +2,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Product;
+use AppBundle\Service\BasketService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -11,27 +12,33 @@ class ShoppingCardController extends Controller {
     /**
      * @Route("/card", name="card")
      */
-    public function shoppingList(Request $request) {
-        $session = $request->getSession();
-        $repository = $this->getDoctrine()->getRepository(Product::class);
-        $productsInBasket = $session->get('productsInBasket');
+    public function shoppingList(Request $request, BasketService $basketService) {
         $products = [];
+        $productsIds = [];
+        $deletedProductId = $request->request->get('delete-product');
 
-        if ($request->request->get('delete-product')) {
-            $productId = $request->request->get('delete-product');
+        $repository = $this->getDoctrine()->getRepository(Product::class);
 
-            if ($productsInBasket[$productId]) {
-                unset($productsInBasket[$productId]);
-                $session->set('productsInBasket', $productsInBasket);
-            }
+        if ($deletedProductId) {
+            $basketService->removeProduct($deletedProductId);
         }
 
-        if ($productsInBasket) {
-            $products = $repository->findById(array_keys($productsInBasket));
+        $productsIds = $basketService->getProductsIds();
+        if ($productsIds) {
+            $products = $repository->findById($productsIds);
         }
 
         return $this->render('shoppingCard.html.twig', [
-            'products' => $products
+            'products' => $products,
+            'priceSum' => $this->getProductPriceSum($products)
         ]);
+    }
+
+    private function getProductPriceSum($products) {
+        return array_reduce($products, function ($sum, $product) {
+            $sum += $product->getPrice();
+
+            return $sum;
+        }, 0);
     }
 }
