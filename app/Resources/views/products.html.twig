@@ -1,13 +1,17 @@
-<p><a href="{{ path('card') }}">Koszyk {% if productsInBasketCount %}({{productsInBasketCount}}){% endif %}</a></p>
-<h1>Produkty</h1>
-<div class="products">
-{% for product in products %}
-<div class="product">
-    <h3>{{product.name}}</h3>
-    <div>Cena: {{product.price}} zł <span>(w tym {{product.vat}}% VAT)</span></div>
-    <div>Kategoria: {{product.category.name}}</div>
-    <p><form method="post"><input type="hidden" name="add-product" value="{{product.id}}"/><input type="submit" value="Dodaj"/></form></p>
-    <p>{{product.description}}</p>
-</div>
-{% endfor %}
-</div>
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <p><a href="{{ path('card') }}">Koszyk {% if productsInBasketCount %}({{productsInBasketCount}}){% endif %}</a></p>
+    <h1>Produkty</h1>
+    <div class="products">
+    {% for product in products %}
+    <div class="product">
+        <h3>{{product.name}}</h3>
+        <div>Cena: {{product.price}} zł <span>(w tym {{product.vat}}% VAT)</span></div>
+        <div>Kategoria: {{product.category.name}}</div>
+        <p><form method="post"><input type="hidden" name="add-product" value="{{product.id}}"/><input type="submit" value="Dodaj"/></form></p>
+        <p>{{product.description}}</p>
+    </div>
+    {% endfor %}
+    </div>
+{% endblock %}

@@ -10,7 +10,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class ProductController extends Controller {
     /**
-     * @Route ("/products", name="products")
+     * @Route ("/", name="products")
+     * 
+     * @param Request $request
+     * @param BasketService $basketService
      */
     public function productsList(Request $request, BasketService $basketService) {
         $repository = $this->getDoctrine()->getRepository(Product::class);
@@ -18,8 +21,14 @@ class ProductController extends Controller {
         $products = $repository->findAll();
         $addedProductId = $request->request->get('add-product');
 
-        if ($addedProductId) {       
-            $basketService->addProduct($addedProductId);
+        if ($addedProductId) {
+            if (!$basketService->containProduct($addedProductId)) {
+                $basketService->addProduct($addedProductId);
+
+                $this->addFlash('info', 'Produkt został dodany do koszyka');
+            } else {
+                $this->addFlash('notice', 'Wybrany produkt jest już w Twoim koszyku');
+            }
         }
 
         return $this->render('products.html.twig', [

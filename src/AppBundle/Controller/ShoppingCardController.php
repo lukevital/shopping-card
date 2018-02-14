@@ -11,6 +11,9 @@ class ShoppingCardController extends Controller {
     
     /**
      * @Route("/card", name="card")
+     * 
+     * @param Request $request
+     * @param BasketService $basketService
      */
     public function shoppingList(Request $request, BasketService $basketService) {
         $products = [];
@@ -21,6 +24,8 @@ class ShoppingCardController extends Controller {
 
         if ($deletedProductId) {
             $basketService->removeProduct($deletedProductId);
+
+            $this->addFlash('info', 'Produkt został usunięty z koszyka');
         }
 
         $productsIds = $basketService->getProductsIds();
@@ -34,6 +39,13 @@ class ShoppingCardController extends Controller {
         ]);
     }
 
+    /**
+     * Calculates price of all products in basket
+     * 
+     * @param array $products
+     * 
+     * @return int
+     */
     private function getProductPriceSum($products) {
         return array_reduce($products, function ($sum, $product) {
             $sum += $product->getPrice();

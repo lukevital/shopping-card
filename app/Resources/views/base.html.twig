@@ -4,10 +4,40 @@
         <meta charset="UTF-8" />
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
+        <style>
+            .wrapper {
+                margin: 0 auto;
+                width: 1000px;
+            }
+
+            .product {
+                padding: 20px;
+                border-bottom: 1px solid #ccc;
+            }
+
+            .flash-info {
+                background-color: #90F500;
+                padding: 10px 20px;
+            }
+
+            .flash-notice {
+                background-color: #FEE23E;
+                padding: 10px 20px;
+            }
+        </style>
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
-        {% block body %}{% endblock %}
+        <div class="wrapper">
+            {% for label, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="flash-{{ label }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+            {% block body %}{% endblock %}
+        </div>
         {% block javascripts %}{% endblock %}
     </body>
 </html>
