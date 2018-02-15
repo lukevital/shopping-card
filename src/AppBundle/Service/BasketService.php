@@ -84,7 +84,7 @@ class BasketService {
      * 
      * @return array
      */
-    private function getProducts() {
+    public function getProducts() {
         return $this->session->get(self::BASKET_SESSION_KEY);
     }
 }
