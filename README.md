@@ -1,4 +1,4 @@
 shopping-card
 =============
 
-A Symfony project created on February 5, 2018, 10:53 pm.
+Dane do uzupełnienia bazy danych znajdują się w `app/sql`
